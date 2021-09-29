@@ -61,7 +61,7 @@ void addFim(Node **list, float valorConta, int dia, int mes, int ano) {
 /*void addMeio(Node **list, float valorConta, float ant, int dia, int mes, int ano) {
 	Node *aux, *novo = (Node *) malloc(sizeof(Node));
 	if (novo) {
-		novo->valorConta = valorConta;
+		novo->valorConta = valorConta; //quando a lista possui somente esse elemento, esssa função e a outra de rremover funciona, mas quando tem mais elementos ela não funciona. não conseguimos aplicar de outro jeito, como corrigir isso?
 		novo->dia = dia;
 		novo->mes = mes;
 		novo->ano = ano;
@@ -80,6 +80,25 @@ void addFim(Node **list, float valorConta, int dia, int mes, int ano) {
 	} else
 		printf("Erro na alocação!\n");
 	
+}
+
+Node* remover(Node **list, float valorConta, int dia, int mes, int ano) {
+	Node *remover = NULL;
+	
+	if(*list) {
+		if((*list)->valorConta == valorConta) {
+			remover = *list;
+			*list = remover->next;
+		} else {
+			aux = *list;
+				while(aux->next && aux->valorConta != valorConta)
+					aux = aux->next;
+				if(aux->next) {
+					remover = aux->next;
+					aux->next = remover->next;
+				}
+		}
+	}
 }*/
 
 void impressao (Node *node) {
@@ -97,10 +116,10 @@ int main() {
 	
 	int select, dia, mes, ano;
 	float valorConta, valorPago, ant;
-	Node *list = NULL;
+	Node removedor, *list = NULL;
 	
 	do{
-		printf("\n0 - Sair \n1 - Add no Inicio \n2 - Add no Fim \n3 - Add no Meio \n4 - Imprimir \n");
+		printf("\n0 - Sair \n1 - Add no Inicio \n2 - Add no Fim \n3 - Add no Meio \n4 - Remover \n5 - Imprimir \n");
 		scanf("%d", &select);
 		
 		switch(select){
@@ -130,8 +149,17 @@ int main() {
 				scanf("%d", &mes);
 				scanf("%d", &ano);
 				addMeio(list, valorConta, dia, mes, ano);
-				break; */
+				break;
 			case 4:
+				printf("Conta a ser removida: ");
+				scanf("%2.f", valorConta);
+				removedor = remover(&list, valorConta);
+				if(removedor) {
+					printf("Removendo elemento: %2.f\n" removedor->valorConta);
+					free(removedor);	
+				}
+				break;*/
+			case 5:
 				impressao(list);
 				break;
 			default:
